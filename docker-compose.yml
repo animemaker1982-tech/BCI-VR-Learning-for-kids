@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  backend:
+    build: .
+    container_name: quantum-magic-garden-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend          # live reload in dev
+      - model_cache:/app/backend/rl/models
+      - qml_cache:/app/backend/qml
+      - pql_cache:/app/backend/pql
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=info
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Optional: pre-train RL + PQL agents as a one-shot job
+  trainer:
+    build: .
+    container_name: quantum-magic-garden-trainer
+    command: python -m backend.train
+    volumes:
+      - model_cache:/app/backend/rl/models
+      - pql_cache:/app/backend/pql
+    profiles:
+      - train    # only run with: docker compose --profile train up trainer
+
+volumes:
+  model_cache:
+  qml_cache:
+  pql_cache:
