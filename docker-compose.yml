@@ -26,15 +26,7 @@ services:
   trainer:
     build: .
     container_name: quantum-magic-garden-trainer
-    command: python -c "
-      from backend.rl.adaptive_agent import AdaptiveRLAgent;
-      from backend.pql.prioritized_q_learning import PQLCurriculumAgent;
-      agent = AdaptiveRLAgent(total_timesteps=50000);
-      agent.train();
-      pql = PQLCurriculumAgent();
-      pql.train(n_episodes=200);
-      print('Training complete!')
-    "
+    command: python -m backend.train
     volumes:
       - model_cache:/app/backend/rl/models
       - pql_cache:/app/backend/pql
