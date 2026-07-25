@@ -81,7 +81,7 @@ This repository currently also contains a separate static outreach landing page 
 
 ## QST Coinbase Trading Service
 
-This repository now also includes a standalone backend service at `/home/runner/work/BCI-VR-Learning-for-kids/BCI-VR-Learning-for-kids/backend/qst-coinbase-agent` for guarded Coinbase trading workflows.
+This repository now also includes a standalone backend service at `backend/qst-coinbase-agent` for guarded Coinbase trading workflows.
 
 The service is designed to keep live trading disabled until all of the following are true:
 
@@ -106,7 +106,7 @@ The service is designed to keep live trading disabled until all of the following
 ### Running the service
 
 ```bash
-cd /home/runner/work/BCI-VR-Learning-for-kids/BCI-VR-Learning-for-kids/backend/qst-coinbase-agent
+cd backend/qst-coinbase-agent
 export COINBASE_API_KEY_NAME="your-coinbase-api-key-name"
 export COINBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----..."
 export COINBASE_ALLOW_LIVE_TRADING=false
