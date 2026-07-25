@@ -1,4 +1,5 @@
 const crypto = require('node:crypto');
+const { badGateway, badRequest } = require('./errors');
 
 function base64UrlEncode(input) {
   return Buffer.from(input)
@@ -15,7 +16,7 @@ function signJwt(signingInput, privateKeyPem, algorithm) {
   if (algorithm === 'ES256') {
     return crypto.sign('sha256', Buffer.from(signingInput), privateKeyPem);
   }
-  throw new Error(`Unsupported JWT algorithm: ${algorithm}`);
+  throw badRequest(`Unsupported JWT algorithm: ${algorithm}`);
 }
 
 function createJwt({ apiKeyName, privateKeyPem, algorithm, method, host, path }) {
@@ -51,7 +52,7 @@ async function placeMarketOrder({ state, order, env = process.env, fetchImpl = f
   const algorithm = env.COINBASE_JWT_ALGORITHM || state.coinbase.jwtAlgorithm || 'ES256';
 
   if (!apiKeyName || !privateKeyPem) {
-    throw new Error('Coinbase credentials are not configured in the environment');
+    throw badRequest('Coinbase credentials are not configured in the environment');
   }
 
   const path = '/api/v3/brokerage/orders';
@@ -78,7 +79,7 @@ async function placeMarketOrder({ state, order, env = process.env, fetchImpl = f
   const response = await fetchImpl(`https://${host}${path}`, {
     method: 'POST',
     headers: {
-      Authorization: ['Bearer', jwt].join(' '),
+      Authorization: `${'Bearer'} ${jwt}`,
       'CB-ACCESS-KEY': apiKeyName,
       'Content-Type': 'application/json',
     },
@@ -94,7 +95,7 @@ async function placeMarketOrder({ state, order, env = process.env, fetchImpl = f
   }
 
   if (!response.ok) {
-    throw new Error(`Coinbase order failed (${response.status}): ${JSON.stringify(parsedBody)}`);
+    throw badGateway(`Coinbase order failed (${response.status})`, 'Coinbase order request failed');
   }
 
   return {

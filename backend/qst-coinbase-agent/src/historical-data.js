@@ -1,7 +1,9 @@
+const { badRequest } = require('./errors');
+
 function parseNumber(value, fieldName) {
   const parsed = Number(value);
   if (!Number.isFinite(parsed)) {
-    throw new Error(`Invalid numeric field: ${fieldName}`);
+    throw badRequest(`Invalid numeric field: ${fieldName}`);
   }
   return parsed;
 }
@@ -9,7 +11,7 @@ function parseNumber(value, fieldName) {
 function normalizeCandle(row) {
   const date = row.date || row.timestamp || row.datetime;
   if (!date) {
-    throw new Error('Each candle requires a date field');
+    throw badRequest('Each candle requires a date field');
   }
 
   return {
@@ -18,8 +20,8 @@ function normalizeCandle(row) {
     high: parseNumber(row.high, 'high'),
     low: parseNumber(row.low, 'low'),
     close: parseNumber(row.close, 'close'),
-    adjustedClose: row.adjusted_close == null ? null : parseNumber(row.adjusted_close, 'adjusted_close'),
-    volume: row.volume == null ? null : parseNumber(row.volume, 'volume'),
+    adjustedClose: row.adjusted_close === undefined || row.adjusted_close === null ? null : parseNumber(row.adjusted_close, 'adjusted_close'),
+    volume: row.volume === undefined || row.volume === null ? null : parseNumber(row.volume, 'volume'),
   };
 }
 
@@ -30,7 +32,7 @@ function parseCsv(text) {
     .filter(Boolean);
 
   if (lines.length < 2) {
-    throw new Error('CSV payload must include a header and at least one data row');
+    throw badRequest('CSV payload must include a header and at least one data row');
   }
 
   const headers = lines[0].split(',').map((header) => header.trim());
@@ -63,8 +65,8 @@ function extractPayload(body, contentType, query) {
     };
   }
 
-  if (typeof parsed !== 'object' || parsed == null) {
-    throw new Error('Upload body must be a JSON object, JSON array, or CSV payload');
+  if (typeof parsed !== 'object' || parsed === null) {
+    throw badRequest('Upload body must be a JSON object, JSON array, or CSV payload');
   }
 
   const csv = typeof parsed.csv === 'string' ? parseCsv(parsed.csv) : null;
@@ -78,10 +80,10 @@ function extractPayload(body, contentType, query) {
 
 function summarizeCandles(symbol, source, candles, metadata = {}) {
   if (!symbol || typeof symbol !== 'string') {
-    throw new Error('A symbol is required for historical data imports');
+    throw badRequest('A symbol is required for historical data imports');
   }
   if (!Array.isArray(candles) || candles.length === 0) {
-    throw new Error('Historical upload must contain at least one candle');
+    throw badRequest('Historical upload must contain at least one candle');
   }
 
   const normalized = candles.map(normalizeCandle).sort((a, b) => a.date.localeCompare(b.date));

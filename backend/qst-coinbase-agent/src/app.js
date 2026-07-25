@@ -3,6 +3,7 @@ const { extractPayload, summarizeCandles } = require('./historical-data');
 const { loadState, saveHistoricalImport, updateState } = require('./state-store');
 const { validateRiskConfig, getCredentialStatus, getReadiness, assertTradingReady, assertOrderAllowed } = require('./guardrails');
 const { placeMarketOrder } = require('./coinbase-client');
+const { badRequest } = require('./errors');
 
 function sendJson(response, statusCode, body) {
   response.writeHead(statusCode, { 'Content-Type': 'application/json' });
@@ -42,6 +43,8 @@ function resetTradingState(state, reason) {
 }
 
 async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
+  const runtimeDir = env.QST_DATA_DIR;
+
   return async function app(request, response) {
     const url = new URL(request.url, 'http://localhost');
 
@@ -51,7 +54,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
       }
 
       if (request.method === 'GET' && url.pathname === '/api/status') {
-        const state = await loadState();
+        const state = await loadState(runtimeDir);
         return sendJson(response, 200, {
           ok: true,
           readiness: getReadiness(state, env),
@@ -64,7 +67,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
         const rawBody = await readBody(request);
         const upload = extractPayload(rawBody, request.headers['content-type'], Object.fromEntries(url.searchParams.entries()));
         const summary = summarizeCandles(upload.symbol, upload.source, upload.candles, upload.metadata);
-        const filePath = await saveHistoricalImport(upload.symbol, summary);
+        const filePath = await saveHistoricalImport(upload.symbol, summary, runtimeDir);
         const nextState = await updateState((state) => {
           const imports = [summary, ...state.historicalData.imports].slice(0, 10);
           return {
@@ -81,7 +84,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
               })),
             },
           };
-        });
+        }, runtimeDir);
         return sendJson(response, 201, {
           ok: true,
           message: 'Historical data imported; manual approval has been reset until trading is reviewed again.',
@@ -99,7 +102,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
             jwtAlgorithm: body.jwtAlgorithm || state.coinbase.jwtAlgorithm || 'ES256',
             updatedAt: new Date().toISOString(),
           },
-        }));
+        }), runtimeDir);
         return sendJson(response, 200, {
           ok: true,
           message: 'Coinbase runtime configuration updated; manual approval has been reset.',
@@ -114,7 +117,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
         const nextState = await updateState((state) => ({
           ...resetTradingState(state, 'risk_configuration_updated'),
           risk,
-        }));
+        }), runtimeDir);
         return sendJson(response, 200, {
           ok: true,
           message: 'Risk configuration saved; manual approval has been reset.',
@@ -125,12 +128,12 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
 
       if (request.method === 'POST' && url.pathname === '/api/trading/approve') {
         const body = JSON.parse((await readBody(request)) || '{}');
-        const state = await loadState();
+        const state = await loadState(runtimeDir);
         if (!state.historicalData.latestImport) {
-          throw new Error('Historical data must be imported before approval can be granted');
+          throw badRequest('Historical data must be imported before approval can be granted');
         }
         if (!state.risk) {
-          throw new Error('Risk configuration must be saved before approval can be granted');
+          throw badRequest('Risk configuration must be saved before approval can be granted');
         }
         const nextState = await updateState((current) => ({
           ...current,
@@ -147,7 +150,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
               historicalImportAt: current.historicalData.latestImport?.importedAt || null,
             },
           },
-        }));
+        }), runtimeDir);
         return sendJson(response, 200, {
           ok: true,
           readiness: getReadiness(nextState, env),
@@ -157,7 +160,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
 
       if (request.method === 'POST' && url.pathname === '/api/trading/start') {
         const body = JSON.parse((await readBody(request)) || '{}');
-        const state = await loadState();
+        const state = await loadState(runtimeDir);
         const readiness = assertTradingReady(state, env);
         const nextState = await updateState((current) => ({
           ...current,
@@ -168,7 +171,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
             startedBy: body.startedBy || 'system',
             stopReason: null,
           },
-        }));
+        }), runtimeDir);
         return sendJson(response, 200, {
           ok: true,
           message: 'Trading is enabled.',
@@ -186,7 +189,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
             enabled: false,
             stopReason: body.reason || 'manual_stop',
           },
-        }));
+        }), runtimeDir);
         return sendJson(response, 200, {
           ok: true,
           trading: nextState.trading,
@@ -195,10 +198,10 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
 
       if (request.method === 'POST' && url.pathname === '/api/orders/market') {
         const body = JSON.parse((await readBody(request)) || '{}');
-        const state = await loadState();
+        const state = await loadState(runtimeDir);
         const side = String(body.side || '').toUpperCase();
         if (!['BUY', 'SELL'].includes(side)) {
-          throw new Error('side must be BUY or SELL');
+          throw badRequest('side must be BUY or SELL');
         }
         const order = {
           productId: body.productId,
@@ -231,7 +234,7 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
             },
             ...current.orders,
           ].slice(0, 20),
-        }));
+        }), runtimeDir);
         return sendJson(response, 201, {
           ok: true,
           order: nextState.trading.lastOrder,
@@ -241,9 +244,10 @@ async function createApp({ env = process.env, fetchImpl = fetch } = {}) {
 
       return sendJson(response, 404, { ok: false, error: 'Not found' });
     } catch (error) {
-      return sendJson(response, 400, {
+      const statusCode = error.statusCode || (error instanceof SyntaxError ? 400 : 500);
+      return sendJson(response, statusCode, {
         ok: false,
-        error: error.message,
+        error: statusCode < 500 ? error.message : (error.publicMessage || 'Internal server error'),
       });
     }
   };

@@ -1,6 +1,8 @@
+const { badRequest } = require('./errors');
+
 function validateRiskConfig(input) {
   if (!input || typeof input !== 'object') {
-    throw new Error('Risk configuration body is required');
+    throw badRequest('Risk configuration body is required');
   }
 
   const maxPositionUsd = Number(input.maxPositionUsd);
@@ -10,13 +12,13 @@ function validateRiskConfig(input) {
     : [];
 
   if (!Number.isFinite(maxPositionUsd) || maxPositionUsd <= 0) {
-    throw new Error('maxPositionUsd must be a positive number');
+    throw badRequest('maxPositionUsd must be a positive number');
   }
   if (!Number.isFinite(maxDailyLossUsd) || maxDailyLossUsd <= 0) {
-    throw new Error('maxDailyLossUsd must be a positive number');
+    throw badRequest('maxDailyLossUsd must be a positive number');
   }
   if (allowedProducts.length === 0) {
-    throw new Error('allowedProducts must contain at least one Coinbase product id');
+    throw badRequest('allowedProducts must contain at least one Coinbase product id');
   }
 
   return {
@@ -55,25 +57,25 @@ function getReadiness(state, env = process.env) {
 function assertTradingReady(state, env = process.env) {
   const readiness = getReadiness(state, env);
   if (!readiness.ready) {
-    throw new Error(`Trading is not ready: ${JSON.stringify(readiness.checks)}`);
+    throw badRequest(`Trading is not ready: ${JSON.stringify(readiness.checks)}`);
   }
   return readiness;
 }
 
 function assertOrderAllowed(state, order) {
   if (!state.trading.enabled) {
-    throw new Error('Trading is not enabled');
+    throw badRequest('Trading is not enabled');
   }
   if (!state.risk.allowedProducts.includes(order.productId)) {
-    throw new Error(`Product ${order.productId} is not in allowedProducts`);
+    throw badRequest(`Product ${order.productId} is not in allowedProducts`);
   }
 
   const notional = Number(order.quoteSizeUsd ?? order.estimatedNotionalUsd);
   if (!Number.isFinite(notional) || notional <= 0) {
-    throw new Error('quoteSizeUsd or estimatedNotionalUsd must be a positive number');
+    throw badRequest('quoteSizeUsd or estimatedNotionalUsd must be a positive number');
   }
   if (notional > state.risk.maxPositionUsd) {
-    throw new Error(`Requested order exceeds maxPositionUsd of ${state.risk.maxPositionUsd}`);
+    throw badRequest(`Requested order exceeds maxPositionUsd of ${state.risk.maxPositionUsd}`);
   }
 
   return notional;
