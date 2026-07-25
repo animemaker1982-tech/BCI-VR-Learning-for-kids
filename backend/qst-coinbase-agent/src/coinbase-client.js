@@ -79,7 +79,7 @@ async function placeMarketOrder({ state, order, env = process.env, fetchImpl = f
   const response = await fetchImpl(`https://${host}${path}`, {
     method: 'POST',
     headers: {
-      Authorization: `${'Bearer'} ${jwt}`,
+      Authorization: 'Bearer ' + jwt,
       'CB-ACCESS-KEY': apiKeyName,
       'Content-Type': 'application/json',
     },
