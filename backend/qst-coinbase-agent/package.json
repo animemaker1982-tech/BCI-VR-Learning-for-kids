@@ -1,0 +1,18 @@
+{
+  "name": "qst-coinbase-agent",
+  "version": "1.0.0",
+  "description": "Guarded Coinbase trading service unlocked by imported EODHD historical data.",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "coinbase",
+    "eodhd",
+    "trading",
+    "backend"
+  ],
+  "license": "ISC"
+}

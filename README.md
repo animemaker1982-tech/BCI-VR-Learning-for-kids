@@ -77,3 +77,40 @@ If you are interested in immersive learning, BCI, quantum education, XR systems,
 ## Repository Note
 
 This repository currently also contains a separate static outreach landing page in `index.html` and `styles.css`. That page is a lightweight public-facing collaboration draft and is distinct from the core Quantum Magic Garden product vision.
+
+
+## QST Coinbase Trading Service
+
+This repository now also includes a standalone backend service at `/home/runner/work/BCI-VR-Learning-for-kids/BCI-VR-Learning-for-kids/backend/qst-coinbase-agent` for guarded Coinbase trading workflows.
+
+The service is designed to keep live trading disabled until all of the following are true:
+
+- EODHD historical data has been imported
+- Coinbase API credentials are present in environment variables
+- Risk limits have been configured
+- Manual approval has been recorded
+- `COINBASE_ALLOW_LIVE_TRADING=true` has been set explicitly
+
+### Service endpoints
+
+- `GET /health`
+- `GET /api/status`
+- `POST /api/historical-data/upload`
+- `POST /api/config/coinbase`
+- `POST /api/config/risk`
+- `POST /api/trading/approve`
+- `POST /api/trading/start`
+- `POST /api/trading/stop`
+- `POST /api/orders/market`
+
+### Running the service
+
+```bash
+cd /home/runner/work/BCI-VR-Learning-for-kids/BCI-VR-Learning-for-kids/backend/qst-coinbase-agent
+export COINBASE_API_KEY_NAME="your-coinbase-api-key-name"
+export COINBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----..."
+export COINBASE_ALLOW_LIVE_TRADING=false
+npm start
+```
+
+Use `npm test` in the same directory to run the built-in Node.js test suite.
