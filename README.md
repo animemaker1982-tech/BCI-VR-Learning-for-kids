@@ -2,67 +2,78 @@
 
 **Mind-powered VR adventures that teach kids quantum computing — using non-invasive BCI on Meta Quest.**
 
-## Collaboration Invite
+## Vision
 
-Separate from Quantum Magic Garden, this repository currently also includes a draft landing page for an early-stage decentralized blockchain community concept.
+Quantum Magic Garden is an immersive educational XR concept designed to help children explore quantum computing through play, imagination, and embodied interaction.
 
-That draft invites early collaborators, builders, and aligned partners to help shape a project grounded in honesty, trust, integrity, and shared opportunity.
+Instead of teaching quantum concepts as abstract theory alone, the experience turns them into something visual, intuitive, and interactive. Children enter a living world where focus, curiosity, and experimentation help them understand ideas like superposition, measurement, entanglement, and quantum search.
 
-If you are interested in business development, strategic partnership, community building, or early contribution to a project with its own coin, culture, and long-term direction, reach out directly:
+Built for **Meta Quest 3/3S standalone**, the long-term vision includes optional **non-invasive BCI integration** so players can interact using cognitive states such as focus and relaxation, with fallback support for hand tracking and eye gaze.
 
-**lucasfaure936@gmail.com**
+## Why This Matters
 
-There is also a simple public-facing landing page draft in `index.html`.
+Quantum technologies are shaping the future, but most people encounter them only as intimidating abstractions. Quantum Magic Garden aims to close that gap by making advanced ideas feel approachable, playful, and alive.
 
-A groundbreaking educational VR experience where children (ages 8–14) wear affordable EEG headsets (OpenBCI, Emotiv, Muse) to control quantum gates with their thoughts. Superposition becomes a blooming flower, entanglement links fireflies across the garden, Grover's search is an epic treasure hunt, and Shor's algorithm cracks "unbreakable" magic locks — all while learning real quantum concepts through play.
+This project is especially compelling for:
 
-Built for **Meta Quest 3/3S standalone**, with optional BCI integration for true "mind magic." Designed to spark quantum literacy in neurodiverse kids, schools, and the next generation of Australian quantum talent.
+- **Schools and STEM programs**
+- **Neurodiverse learners** who may benefit from alternative interaction models
+- **Quantum outreach and public education**
+- **Edtech licensing and immersive curriculum opportunities**
 
-[![Unity](https://img.shields.io/badge/Engine-Unity_2022.3+-000000?style=for-the-badge&logo=unity&logoColor=white)](https://unity.com)
-[![Meta Quest](https://img.shields.io/badge/Platform-Meta_Quest_3-0078D4?style=for-the-badge&logo=meta&logoColor=white)](https://www.meta.com/quest/)
-[![BCI](https://img.shields.io/badge/BCI-OpenBCI_/_Emotiv-blueviolet?style=for-the-badge)](https://openbci.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+## Core Experience
 
-## Why This Matters in 2026
+- **Immersive Quantum Garden** with rich environmental storytelling
+- **BCI-assisted interaction** through EEG/LSL pipelines
+- **Fallback input modes** such as hand tracking and eye gaze
+- **Quantum logic playground** for gates like H, X, and CNOT
+- **Puzzle-based learning** inspired by Grover's and Shor's algorithms
+- **Gamified progression** that rewards exploration and understanding
 
-Quantum technologies are exploding — Australia leads with Silicon Quantum Computing, UniMelb quantum hubs, and national post-quantum crypto pushes. Yet kids (and most adults) struggle with abstract concepts like superposition, entanglement, Grover's quadratic speedup, and Shor's factoring threat to RSA/Web3 security.
+## Architecture Overview
 
-**Quantum Magic Garden** makes the invisible visible and interactive:
-- BCI focus → applies Hadamard (superposition sparkles!)
-- Relax → measures & collapses reality
-- Mind-powered puzzles teach Grover (find hidden treasure √N times faster) and Shor (break magic locks with quantum period-finding)
+The project concept is strongest when understood as a layered system:
 
-Perfect for:
-- Schools & STEM programs
-- Neurodiverse learners (no controllers needed)
-- Quantum outreach (post-quantum awareness)
-- Edtech SaaS licensing
+### 1. Experience Layer
+The child-facing VR world: environments, quests, progression, and emotional engagement.
 
-## Core Features (Current Prototype)
+### 2. Interaction Layer
+BCI inputs, focus/relaxation mapping, and fallback interaction paths like hand tracking and eye gaze.
 
-- **Immersive Quantum Garden** — Floating Bloch spheres, probability clouds, entangled fireflies
-- **BCI Control** (via LSL streaming):
-  - Attention (focus) → cast gates (H, X, CNOT)
-  - Relaxation → measure & collapse
-- **Quantum Logic Gates Playground**
-  - Pauli-X (Flip Spell)
-  - Hadamard (Superposition Sparkle)
-  - CNOT (Entanglement Link)
-- **Grover's Treasure Hunt** — Quadratic speedup visualized as amplifying the "magic firefly"
-- **Shor's Master Key Quest** — Factor "unbreakable" crystal locks (toy RSA demo) → shows real-world crypto implications
-- **Fallback Modes** — Hand tracking / eye gaze for non-BCI play
-- **Gamified Progression** — Levels unlock new visuals & puzzles
+### 3. Simulation Layer
+Toy quantum state logic and gate behavior that support educational mechanics.
 
-## Tech Stack
+### 4. Visual Learning Layer
+Effects, metaphors, particles, and spatial representations that make invisible concepts visible.
 
-- **Engine**: Unity 2022.3 LTS (URP) + Meta XR SDK + XR Interaction Toolkit
-- **Quantum Simulation**: Lightweight C# statevector (single/multi-qubit toy impl) — extensible to Qiskit/Cirq bridge
-- **BCI Integration**: LSL (Lab Streaming Layer) via LSL4Unity asset — supports OpenBCI Cyton/Ganglion, Emotiv EPOC/Insight, Muse
-- **Visuals**: Particle systems, bloom/post-processing, custom shaders for Bloch spheres & probability waves
-- **Deployment**: Android APK for Quest standalone (via SideQuest or Meta App Lab)
+### 5. Platform Layer
+Unity, Meta Quest deployment, performance constraints, and XR runtime integration.
 
-## Quick Start (Developer Setup)
+## Tech Direction
 
-1. Clone repo:
-   ```bash
-   git clone https://github.com/yourusername/quantum-magic-garden.git
+- **Engine**: Unity 2022.3 LTS (URP)
+- **Platform**: Meta Quest 3/3S standalone
+- **XR Tooling**: Meta XR SDK + XR Interaction Toolkit
+- **BCI Integration**: LSL / EEG-compatible streaming
+- **Simulation**: Lightweight C# quantum state systems
+- **Visuals**: Particle systems, post-processing, shaders, interactive environmental feedback
+
+## Builder's Note
+
+This repository reflects more than a product idea. It reflects a builder mindset rooted in resilience, imagination, and long-term vision.
+
+Last year, I was in a wheelchair and had to learn how to walk again after being told I might never walk again. That experience changed how I approach everything: one step at a time, one system at a time, one breakthrough at a time.
+
+I bring that same mindset into what I build.
+
+I believe technology should not only work — it should invite people into possibility.
+
+## Collaboration
+
+If you are interested in immersive learning, BCI, quantum education, XR systems, partnerships, or helping shape the future direction of this project, feel free to reach out.
+
+**Email**: lucasfaure936@gmail.com
+
+## Repository Note
+
+This repository currently also contains a separate static outreach landing page in `index.html` and `styles.css`. That page is a lightweight public-facing collaboration draft and is distinct from the core Quantum Magic Garden product vision.
