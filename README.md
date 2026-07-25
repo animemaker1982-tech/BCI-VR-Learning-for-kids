@@ -4,13 +4,15 @@
 
 ## Collaboration Invite
 
-We are inviting early collaborators, builders, and aligned partners to help shape a decentralized blockchain project grounded in honesty, trust, integrity, and shared opportunity.
+Separate from Quantum Magic Garden, this repository currently also includes a draft landing page for an early-stage decentralized blockchain community concept.
+
+That draft invites early collaborators, builders, and aligned partners to help shape a project grounded in honesty, trust, integrity, and shared opportunity.
 
 If you are interested in business development, strategic partnership, community building, or early contribution to a project with its own coin, culture, and long-term direction, reach out directly:
 
 **lucasfaure936@gmail.com**
 
-There is also a simple public-facing landing page draft in `/home/runner/work/BCI-VR-Learning-for-kids/BCI-VR-Learning-for-kids/index.html`.
+There is also a simple public-facing landing page draft in `index.html`.
 
 A groundbreaking educational VR experience where children (ages 8–14) wear affordable EEG headsets (OpenBCI, Emotiv, Muse) to control quantum gates with their thoughts. Superposition becomes a blooming flower, entanglement links fireflies across the garden, Grover's search is an epic treasure hunt, and Shor's algorithm cracks "unbreakable" magic locks — all while learning real quantum concepts through play.
 
