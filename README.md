@@ -74,6 +74,21 @@ If you are interested in immersive learning, BCI, quantum education, XR systems,
 
 **Email**: lucasfaure936@gmail.com
 
+## Published Offering
+
+This repository is the public-facing overview for **Quantum Magic Garden** and its related QST trading service work.
+
+The project is now being presented for **acquisition or strategic partnership** with a **starting price of USD $100,000**.
+
+Potential buyers or partners may be interested in:
+
+- The Quantum Magic Garden concept and brand direction
+- The educational XR + BCI product vision
+- The guarded QST Coinbase trading service backend
+- Early-stage collaboration, licensing, or commercialization opportunities
+
+Serious inquiries can be sent directly to **lucasfaure936@gmail.com**.
+
 ## Repository Note
 
 This repository currently also contains a separate static outreach landing page in `index.html` and `styles.css`. That page is a lightweight public-facing collaboration draft and is distinct from the core Quantum Magic Garden product vision.
