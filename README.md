@@ -74,6 +74,58 @@ If you are interested in immersive learning, BCI, quantum education, XR systems,
 
 **Email**: lucasfaure936@gmail.com
 
+## Published Offering
+
+This repository is the public-facing overview for **Quantum Magic Garden** and its related QST trading service work.
+
+The project is now being presented for **acquisition or strategic partnership** with a **starting price of USD $100,000**.
+
+Potential buyers or partners may be interested in:
+
+- The Quantum Magic Garden concept and brand direction
+- The educational XR + BCI product vision
+- The guarded QST Coinbase trading service backend
+- Early-stage collaboration, licensing, or commercialization opportunities
+
+Serious inquiries can be sent directly to **lucasfaure936@gmail.com**.
+
 ## Repository Note
 
 This repository currently also contains a separate static outreach landing page in `index.html` and `styles.css`. That page is a lightweight public-facing collaboration draft and is distinct from the core Quantum Magic Garden product vision.
+
+
+## QST Coinbase Trading Service
+
+This repository now also includes a standalone backend service at `backend/qst-coinbase-agent` for guarded Coinbase trading workflows.
+
+The service is designed to keep live trading disabled until all of the following are true:
+
+- EODHD historical data has been imported
+- Coinbase API credentials are present in environment variables
+- Risk limits have been configured
+- Manual approval has been recorded
+- `COINBASE_ALLOW_LIVE_TRADING=true` has been set explicitly
+
+### Service endpoints
+
+- `GET /health`
+- `GET /api/status`
+- `POST /api/historical-data/upload`
+- `POST /api/config/coinbase`
+- `POST /api/config/risk`
+- `POST /api/trading/approve`
+- `POST /api/trading/start`
+- `POST /api/trading/stop`
+- `POST /api/orders/market`
+
+### Running the service
+
+```bash
+cd backend/qst-coinbase-agent
+export COINBASE_API_KEY_NAME="your-coinbase-api-key-name"
+export COINBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----..."
+export COINBASE_ALLOW_LIVE_TRADING=false
+npm start
+```
+
+Use `npm test` in the same directory to run the built-in Node.js test suite.
