@@ -1,0 +1,16 @@
+{
+  "name": "DBD Sigil Token - Keepers Pathway",
+  "symbol": "SIGIL",
+  "description": "Keepers fraternity token for dedicated guardians protecting community values, discipline, and direction.",
+  "image": "https://raw.githubusercontent.com/animemaker1982-tech/BCI-VR-Learning-for-kids/main/metadata/keepers-sigil.svg",
+  "metadataPointer": {
+    "pointerAddress": "0x1111111111111111111111111111111111111111",
+    "authority": "0x9999999999999999999999999999999999999999",
+    "isLocked": false
+  },
+  "attributes": [
+    { "trait_type": "Pathway", "value": "Keepers" },
+    { "trait_type": "Access Tier", "value": 3 },
+    { "trait_type": "Governance Rights", "value": "Guardian Council & Treasury Oversight" }
+  ]
+}

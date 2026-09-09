@@ -74,6 +74,79 @@
       </div>
     </section>
 
+    <section class="section alt" id="sigil-token">
+      <div class="container">
+        <h2>Sigil Token & MetadataPointer Architecture</h2>
+        <p class="lead" style="margin-bottom: 2rem;">
+          Our token implementation incorporates the <code>MetadataPointer</code> extension standard, decoupling core ledger operations from dynamic metadata storage and on-chain visual rendering.
+        </p>
+
+        <div class="sigil-grid">
+          <div class="card sigil-preview">
+            <h3>Interactive Sigil Viewer</h3>
+            <div class="pathway-tabs">
+              <button class="tab-btn active" onclick="switchPathway('Public')">Public</button>
+              <button class="tab-btn" onclick="switchPathway('Members')">Members</button>
+              <button class="tab-btn" onclick="switchPathway('Keepers')">Keepers</button>
+            </div>
+            <div id="sigil-svg-container" class="svg-wrapper">
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' width='100%' height='100%'>
+                <rect width='400' height='400' fill='#0d0d12' rx='20'/>
+                <circle cx='200' cy='200' r='140' fill='none' stroke='#d6b679' stroke-width='4'/>
+                <polygon points='200,80 230,170 320,200 230,230 200,320 170,230 80,200 170,170' fill='none' stroke='#d6b679' stroke-width='3'/>
+                <circle cx='200' cy='200' r='30' fill='#d6b679' opacity='0.8'/>
+                <text x='200' y='360' font-size='16' fill='#f2efe9' font-family='sans-serif' text-anchor='middle'>Public Pathway • Level 1</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="card sigil-info">
+            <h3>MetadataPointer Status</h3>
+            <div class="pointer-status">
+              <div class="status-row">
+                <span class="label">Token Symbol:</span>
+                <span class="value">SIGIL</span>
+              </div>
+              <div class="status-row">
+                <span class="label">Extension Standard:</span>
+                <span class="value">IMetadataPointer (SPL/ERC Extension)</span>
+              </div>
+              <div class="status-row">
+                <span class="label">Metadata Pointer:</span>
+                <span class="value code">0xMetadataStore...</span>
+              </div>
+              <div class="status-row">
+                <span class="label">Pointer Authority:</span>
+                <span class="value code">0xKeeperCouncil...</span>
+              </div>
+              <div class="status-row">
+                <span class="label">Pointer State:</span>
+                <span class="badge unlocked" id="pointer-lock-badge">Unlocked (Upgradable)</span>
+              </div>
+            </div>
+
+            <div class="json-preview">
+              <h4>Resolved Metadata JSON</h4>
+              <pre><code id="metadata-json">{
+  "name": "DBD Sigil Token #1 - Public",
+  "symbol": "SIGIL",
+  "description": "Public community pathway token grounded in honesty, trust, integrity, and shared opportunity.",
+  "metadataPointer": {
+    "pointerAddress": "0x1111111111111111111111111111111111111111",
+    "authority": "0x9999999999999999999999999999999999999999",
+    "isLocked": false
+  },
+  "attributes": [
+    { "trait_type": "Pathway", "value": "Public" },
+    { "trait_type": "Level", "value": 1 }
+  ]
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section">
       <div class="container narrow">
         <h2>Early circle invitation</h2>
@@ -98,5 +171,87 @@
       </div>
     </section>
   </main>
+
+  <script>
+    const pathwayData = {
+      Public: {
+        color: '#d6b679',
+        level: 1,
+        desc: 'Public community pathway token grounded in honesty, trust, integrity, and shared opportunity.',
+        json: {
+          name: "DBD Sigil Token #1 - Public",
+          symbol: "SIGIL",
+          description: "Public community pathway token grounded in honesty, trust, integrity, and shared opportunity.",
+          metadataPointer: {
+            pointerAddress: "0x1111111111111111111111111111111111111111",
+            authority: "0x9999999999999999999999999999999999999999",
+            isLocked: false
+          },
+          attributes: [
+            { trait_type: "Pathway", value: "Public" },
+            { trait_type: "Level", value: 1 }
+          ]
+        }
+      },
+      Members: {
+        color: '#7992d6',
+        level: 2,
+        desc: 'Members pathway token for active shape-makers building ecosystem business opportunities and voting.',
+        json: {
+          name: "DBD Sigil Token #2 - Members",
+          symbol: "SIGIL",
+          description: "Members pathway token for active shape-makers building ecosystem business opportunities and voting.",
+          metadataPointer: {
+            pointerAddress: "0x1111111111111111111111111111111111111111",
+            authority: "0x9999999999999999999999999999999999999999",
+            isLocked: false
+          },
+          attributes: [
+            { trait_type: "Pathway", value: "Members" },
+            { trait_type: "Level", value: 2 }
+          ]
+        }
+      },
+      Keepers: {
+        color: '#d67979',
+        level: 3,
+        desc: 'Keepers fraternity token for dedicated guardians protecting community values, discipline, and direction.',
+        json: {
+          name: "DBD Sigil Token #3 - Keepers",
+          symbol: "SIGIL",
+          description: "Keepers fraternity token for dedicated guardians protecting community values, discipline, and direction.",
+          metadataPointer: {
+            pointerAddress: "0x1111111111111111111111111111111111111111",
+            authority: "0x9999999999999999999999999999999999999999",
+            isLocked: false
+          },
+          attributes: [
+            { trait_type: "Pathway", value: "Keepers" },
+            { trait_type: "Level", value: 3 }
+          ]
+        }
+      }
+    };
+
+    function switchPathway(pathway) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === pathway);
+      });
+
+      const data = pathwayData[pathway];
+      const svgContainer = document.getElementById('sigil-svg-container');
+      svgContainer.innerHTML = `
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' width='100%' height='100%'>
+          <rect width='400' height='400' fill='#0d0d12' rx='20'/>
+          <circle cx='200' cy='200' r='140' fill='none' stroke='${data.color}' stroke-width='4'/>
+          <polygon points='200,80 230,170 320,200 230,230 200,320 170,230 80,200 170,170' fill='none' stroke='${data.color}' stroke-width='3'/>
+          <circle cx='200' cy='200' r='30' fill='${data.color}' opacity='0.8'/>
+          <text x='200' y='360' font-size='16' fill='#f2efe9' font-family='sans-serif' text-anchor='middle'>${pathway} Pathway • Level ${data.level}</text>
+        </svg>
+      `;
+
+      document.getElementById('metadata-json').textContent = JSON.stringify(data.json, null, 2);
+    }
+  </script>
 </body>
 </html>

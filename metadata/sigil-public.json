@@ -1,0 +1,16 @@
+{
+  "name": "DBD Sigil Token - Public Pathway",
+  "symbol": "SIGIL",
+  "description": "Public community pathway token grounded in honesty, trust, integrity, and shared opportunity.",
+  "image": "https://raw.githubusercontent.com/animemaker1982-tech/BCI-VR-Learning-for-kids/main/metadata/public-sigil.svg",
+  "metadataPointer": {
+    "pointerAddress": "0x1111111111111111111111111111111111111111",
+    "authority": "0x9999999999999999999999999999999999999999",
+    "isLocked": false
+  },
+  "attributes": [
+    { "trait_type": "Pathway", "value": "Public" },
+    { "trait_type": "Access Tier", "value": 1 },
+    { "trait_type": "Governance Rights", "value": "Voting & Proposals" }
+  ]
+}

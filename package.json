@@ -1,0 +1,30 @@
+{
+  "name": "bci-vr-learning-for-kids",
+  "version": "1.0.0",
+  "description": "**Mind-powered VR adventures that teach kids quantum computing — using non-invasive BCI on Meta Quest.**",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test test/SigilToken.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://localhost:26831/animemaker1982-tech/BCI-VR-Learning-for-kids"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@ethereumjs/common": "^10.1.3",
+    "@ethereumjs/evm": "^10.1.3",
+    "@ethereumjs/vm": "^10.1.3",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.1.2",
+    "@nomicfoundation/hardhat-ethers": "^3.1.3",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "chai": "^4.5.0",
+    "ethers": "^6.17.0",
+    "ganache": "^7.9.2",
+    "hardhat": "^2.29.1",
+    "solc": "^0.8.36"
+  }
+}

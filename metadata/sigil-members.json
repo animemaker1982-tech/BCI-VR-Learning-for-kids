@@ -1,0 +1,16 @@
+{
+  "name": "DBD Sigil Token - Members Pathway",
+  "symbol": "SIGIL",
+  "description": "Members pathway token for active shape-makers building ecosystem business opportunities and voting.",
+  "image": "https://raw.githubusercontent.com/animemaker1982-tech/BCI-VR-Learning-for-kids/main/metadata/members-sigil.svg",
+  "metadataPointer": {
+    "pointerAddress": "0x1111111111111111111111111111111111111111",
+    "authority": "0x9999999999999999999999999999999999999999",
+    "isLocked": false
+  },
+  "attributes": [
+    { "trait_type": "Pathway", "value": "Members" },
+    { "trait_type": "Access Tier", "value": 2 },
+    { "trait_type": "Governance Rights", "value": "Enhanced Proposals & Business Creation" }
+  ]
+}
